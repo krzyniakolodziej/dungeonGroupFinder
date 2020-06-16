@@ -15,6 +15,14 @@ public class Player {
         this.level = player.getLevel();
     }
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", level=" + level +
+                '}';
+    }
+
     public String getName() {
         return name;
     }

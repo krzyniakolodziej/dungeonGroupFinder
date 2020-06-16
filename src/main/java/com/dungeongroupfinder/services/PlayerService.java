@@ -5,13 +5,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class GroupManager {
+public class PlayerService {
 
-    private List<Player> group;
+    private List<Player> group; // change to hashmap
 
-    public GroupManager() {
+    public PlayerService() {
         this.group = new ArrayList<>();
         group.add(new Player("player1", 1));
         group.add(new Player("player2", 2));
@@ -31,8 +32,13 @@ public class GroupManager {
     }
 
     public void removePlayer(String name) {
-        group.stream()
-                .filter(group -> !name.equals(group.getName()));
+        group = group.stream()
+                .filter(group -> !name.equals(group.getName()))
+                .collect(Collectors.toList());
+    }
+
+    public void updatePlayer(Player player) {
+        // todo update player
     }
 
 }
