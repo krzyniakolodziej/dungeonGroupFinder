@@ -1,6 +1,6 @@
 package com.dungeongroupfinder.controllers;
 
-import com.dungeongroupfinder.entities.Player;
+/*import com.dungeongroupfinder.entities.Player;
 import com.dungeongroupfinder.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,4 +39,4 @@ public class PlayerController {
         playerService.updatePlayer(player);
     }
 
-}
+}*/

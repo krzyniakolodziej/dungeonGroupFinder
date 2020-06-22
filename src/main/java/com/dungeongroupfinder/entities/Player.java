@@ -1,9 +1,18 @@
 package com.dungeongroupfinder.entities;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "Player")
 public class Player {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
     private int level;
+
+    public Player() {};
 
     public Player(String name, int level) {
         this.name = name;
@@ -21,6 +30,10 @@ public class Player {
                 "name='" + name + '\'' +
                 ", level=" + level +
                 '}';
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {

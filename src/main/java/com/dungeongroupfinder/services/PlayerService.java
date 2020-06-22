@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+/*@Service
 public class PlayerService {
 
     private List<Player> group; // change to hashmap
@@ -20,10 +20,6 @@ public class PlayerService {
 
     public List<Player> getGroup() {
         return group;
-    }
-
-    public void setGroup(List<Player> group) {
-        this.group = group;
     }
 
     public boolean addPlayer(Player player) {
@@ -42,3 +38,4 @@ public class PlayerService {
     }
 
 }
+*/
