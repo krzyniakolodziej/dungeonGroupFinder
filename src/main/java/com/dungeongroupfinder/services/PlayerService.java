@@ -27,4 +27,20 @@ public class PlayerService {
         return playerRepository.findByName(name);
     }
 
+    public void addPlayer(Player player) {
+        playerRepository.save(player);
+    }
+
+    public void deletePlayerById(int id) {
+        playerRepository.deleteById(id);
+    }
+
+    public void deleteAllPlayers() {
+        playerRepository.deleteAll();
+    }
+
+    public void updatePlayer(Player player) {
+        playerRepository.save(player);
+    }
+
 }

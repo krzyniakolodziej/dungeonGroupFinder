@@ -19,6 +19,11 @@ public class Player {
         this.level = level;
     }
 
+    public Player(int id, String name, int level) {
+        this.id = id;
+        this.name = name;
+        this.level = level;
+    }
 
     @Override
     public String toString() {
@@ -27,6 +32,14 @@ public class Player {
                 ", name='" + name + '\'' +
                 ", level=" + level +
                 '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
