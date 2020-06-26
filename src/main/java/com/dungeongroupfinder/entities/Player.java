@@ -3,7 +3,7 @@ package com.dungeongroupfinder.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Player")
+//@Table(name = "Player")
 public class Player {
 
     @Id
@@ -12,28 +12,21 @@ public class Player {
     private String name;
     private int level;
 
-    public Player() {};
+    protected Player() {};
 
     public Player(String name, int level) {
         this.name = name;
         this.level = level;
     }
 
-    public Player(Player player) {
-        this.name = player.getName();
-        this.level = player.getLevel();
-    }
 
     @Override
     public String toString() {
         return "Player{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", level=" + level +
                 '}';
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getName() {

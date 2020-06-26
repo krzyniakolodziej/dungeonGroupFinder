@@ -1,41 +1,26 @@
 package com.dungeongroupfinder.services;
 
 import com.dungeongroupfinder.entities.Player;
+import com.dungeongroupfinder.repository.PlayerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/*@Service
+@Service
 public class PlayerService {
 
-    private List<Player> group; // change to hashmap
+    @Autowired
+    PlayerRepository playerRepository;
 
-    public PlayerService() {
-        this.group = new ArrayList<>();
-        group.add(new Player("player1", 1));
-        group.add(new Player("player2", 2));
+    public List<Player> getPlayers() {
+        return playerRepository.findAll();
     }
 
-    public List<Player> getGroup() {
-        return group;
-    }
-
-    public boolean addPlayer(Player player) {
-        System.out.println(player);
-        return this.group.add(new Player(player));
-    }
-
-    public void removePlayer(String name) {
-        group = group.stream()
-                .filter(group -> !name.equals(group.getName()))
-                .collect(Collectors.toList());
-    }
-
-    public void updatePlayer(Player player) {
-        // todo update player
+    public Player getPlayerById(int id) {
+        return playerRepository.findById(id);
     }
 
 }
-*/
