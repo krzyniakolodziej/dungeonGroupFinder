@@ -15,13 +15,15 @@ public class PlayerController {
     PlayerService playerService;
 
     @GetMapping
-    public List<Player> getPlayers() {
-        return playerService.getPlayers();
+    public List<Player> getPlayers(@RequestParam(value = "name", required = false) String name) {
+       if (name==null || name.isEmpty()) {
+           return playerService.getPlayers();
+       }
+        return playerService.getPlayersByName(name);
     }
 
     @GetMapping("/{id}")
     public Player getPlayerById(@PathVariable int id) {
         return playerService.getPlayerById(id);
     }
-
 }
