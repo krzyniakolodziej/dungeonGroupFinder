@@ -1,9 +1,11 @@
 package com.dungeongroupfinder.entities;
 
+import com.dungeongroupfinder.enums.Roles;
+
 import javax.persistence.*;
 
 @Entity
-//@Table(name = "Player")
+@Table(name = "players")
 public class Player {
 
     @Id
@@ -11,18 +13,21 @@ public class Player {
     private int id;
     private String name;
     private int level;
+    private Roles role;
 
     protected Player() {};
 
-    public Player(String name, int level) {
+    public Player(String name, int level, Roles role) {
         this.name = name;
         this.level = level;
+        this.role = role;
     }
 
-    public Player(int id, String name, int level) {
+    public Player(int id, String name, int level, Roles role) {
         this.id = id;
         this.name = name;
         this.level = level;
+        this.role = role;
     }
 
     @Override
@@ -31,7 +36,16 @@ public class Player {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", level=" + level +
+                ", role=" + role +
                 '}';
+    }
+
+    public Roles getRole() {
+        return role;
+    }
+
+    public void setRole(Roles role) {
+        this.role = role;
     }
 
     public int getId() {

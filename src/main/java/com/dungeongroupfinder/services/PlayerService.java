@@ -1,6 +1,7 @@
 package com.dungeongroupfinder.services;
 
 import com.dungeongroupfinder.entities.Player;
+import com.dungeongroupfinder.enums.Roles;
 import com.dungeongroupfinder.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,16 @@ public class PlayerService {
 
     public void updatePlayer(Player player) {
         playerRepository.save(player);
+    }
+
+    /*public void updateRoleById(int id, Roles role) {
+        Player player = playerRepository.findById(id);
+        player.setRole(role);
+        playerRepository.save(player);
+    }*/ // not optimal approach
+
+    public void updatePlayerRoleById(int id, Roles role) {
+        playerRepository.updatePlayerRoleById(id, role);
     }
 
 }

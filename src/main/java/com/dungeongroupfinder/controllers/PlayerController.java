@@ -1,6 +1,7 @@
 package com.dungeongroupfinder.controllers;
 
 import com.dungeongroupfinder.entities.Player;
+import com.dungeongroupfinder.enums.Roles;
 import com.dungeongroupfinder.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,15 +35,27 @@ public class PlayerController {
         playerService.addPlayer(player);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @DeleteMapping
     public void deletePlayer(@RequestBody int id) {
         playerService.deletePlayerById(id);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping
     public void updatePlayer(@RequestBody Player player) {
         playerService.updatePlayer(player);
+    }
+
+    /*@ResponseStatus(HttpStatus.ACCEPTED)
+    @PatchMapping
+    public void updateRoleById(@RequestBody int id, @RequestBody Roles role) {
+        playerService.updateRoleById(id, role);
+    }*/
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PatchMapping("/{id}")
+    public void updatePlayerRoleById(@PathVariable int id, @RequestBody Roles role) {
+        playerService.updatePlayerRoleById(id, role);
     }
 }
