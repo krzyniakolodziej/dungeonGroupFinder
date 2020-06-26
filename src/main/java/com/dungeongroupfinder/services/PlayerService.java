@@ -35,10 +35,6 @@ public class PlayerService {
         playerRepository.deleteById(id);
     }
 
-    public void deleteAllPlayers() {
-        playerRepository.deleteAll();
-    }
-
     public void updatePlayer(Player player) {
         playerRepository.save(player);
     }

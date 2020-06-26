@@ -41,12 +41,6 @@ public class PlayerController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping
-    public void deleteAllPlayers() {
-        playerService.deleteAllPlayers();
-    }
-
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping
     public void updatePlayer(@RequestBody Player player) {
         playerService.updatePlayer(player);
