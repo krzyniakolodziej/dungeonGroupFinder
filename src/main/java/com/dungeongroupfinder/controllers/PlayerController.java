@@ -1,6 +1,7 @@
 package com.dungeongroupfinder.controllers;
 
 import com.dungeongroupfinder.entities.Player;
+import com.dungeongroupfinder.enums.Roles;
 import com.dungeongroupfinder.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import java.util.List;
 public class PlayerController {
 
     @Autowired
-    PlayerService playerService;
+    private PlayerService playerService;
 
     @GetMapping
     public List<Player> getPlayers(@RequestParam(value = "name", required = false) String name) {
@@ -21,11 +22,6 @@ public class PlayerController {
            return playerService.getPlayers();
        }
         return playerService.getPlayersByName(name);
-    }
-
-    @GetMapping("/{id}")
-    public Player getPlayerById(@PathVariable int id) {
-        return playerService.getPlayerById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -44,5 +40,16 @@ public class PlayerController {
     @PutMapping
     public void updatePlayer(@RequestBody Player player) {
         playerService.updatePlayer(player);
+    }
+
+    @GetMapping("/{id}")
+    public Player getPlayerById(@PathVariable int id) {
+        return playerService.getPlayerById(id);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/{id}")
+    public void updatePlayerRoleById(@PathVariable int id, @RequestBody Roles role) {
+        playerService.updatePlayerRoleById(id, role);
     }
 }

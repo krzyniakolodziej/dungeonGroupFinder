@@ -1,6 +1,7 @@
 package com.dungeongroupfinder.services;
 
 import com.dungeongroupfinder.entities.Player;
+import com.dungeongroupfinder.enums.Roles;
 import com.dungeongroupfinder.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 public class PlayerService {
 
     @Autowired
-    PlayerRepository playerRepository;
+    private PlayerRepository playerRepository;
 
     public List<Player> getPlayers() {
         return playerRepository.findAll();
@@ -39,4 +40,16 @@ public class PlayerService {
         playerRepository.save(player);
     }
 
+    /*public void updateRoleById(int id, Roles role) {
+        Player player = playerRepository.findById(id);
+        player.setRole(role);
+        playerRepository.save(player);
+    }*/ // not optimal approach, the proper one is presented below
+
+    public void updatePlayerRoleById(int id, Roles role) {
+        playerRepository.updatePlayerRoleById(id, role);
+    }
+
 }
+// try to construct webhooks - on update/post event in DB we check if there is a full group,
+// full groups are somehow separated from the rest
