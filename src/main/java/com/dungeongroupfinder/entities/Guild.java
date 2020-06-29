@@ -11,6 +11,13 @@ public class Guild {
     private int id;
     private String guildName;
 
+    public Guild(int id, String guildName) {
+        this.id = id;
+        this.guildName = guildName;
+    }
+
+    public Guild() {}
+
     public int getId() {
         return id;
     }

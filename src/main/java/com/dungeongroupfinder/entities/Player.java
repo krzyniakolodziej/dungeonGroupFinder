@@ -11,21 +11,23 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private int level;
     private Roles role;
-    private int guildId;
+    private Integer guildId;
 
-    protected Player() {};
+    protected Player() {}
 
-    public Player(String name, int level, Roles role, int guildId) {
+    public Player(String name, int level, Roles role, Integer guildId) {
         this.name = name;
         this.level = level;
         this.role = role;
         this.guildId = guildId;
     }
 
-    public Player(int id, String name, int level, Roles role, int guildId) {
+    public Player(int id, String name, int level, Roles role, Integer guildId) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -76,11 +78,11 @@ public class Player {
         this.level = level;
     }
 
-    public int getGuildId() {
+    public Integer getGuildId() {
         return guildId;
     }
 
-    public void setGuildId(int guildId) {
+    public void setGuildId(Integer guildId) {
         this.guildId = guildId;
     }
 }
