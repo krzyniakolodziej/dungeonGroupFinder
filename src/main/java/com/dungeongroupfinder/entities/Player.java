@@ -14,20 +14,23 @@ public class Player {
     private String name;
     private int level;
     private Roles role;
+    private int guildId;
 
     protected Player() {};
 
-    public Player(String name, int level, Roles role) {
+    public Player(String name, int level, Roles role, int guildId) {
         this.name = name;
         this.level = level;
         this.role = role;
+        this.guildId = guildId;
     }
 
-    public Player(int id, String name, int level, Roles role) {
+    public Player(int id, String name, int level, Roles role, int guildId) {
         this.id = id;
         this.name = name;
         this.level = level;
         this.role = role;
+        this.guildId = guildId;
     }
 
     @Override
@@ -37,6 +40,7 @@ public class Player {
                 ", name='" + name + '\'' +
                 ", level=" + level +
                 ", role=" + role +
+                ", guildId=" + guildId +
                 '}';
     }
 
@@ -70,5 +74,13 @@ public class Player {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public int getGuildId() {
+        return guildId;
+    }
+
+    public void setGuildId(int guildId) {
+        this.guildId = guildId;
     }
 }
