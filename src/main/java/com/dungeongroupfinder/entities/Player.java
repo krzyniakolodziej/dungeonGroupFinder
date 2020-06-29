@@ -11,23 +11,28 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private int level;
     private Roles role;
+    private Integer guildId;
 
-    protected Player() {};
+    protected Player() {}
 
-    public Player(String name, int level, Roles role) {
+    public Player(String name, int level, Roles role, Integer guildId) {
         this.name = name;
         this.level = level;
         this.role = role;
+        this.guildId = guildId;
     }
 
-    public Player(int id, String name, int level, Roles role) {
+    public Player(int id, String name, int level, Roles role, Integer guildId) {
         this.id = id;
         this.name = name;
         this.level = level;
         this.role = role;
+        this.guildId = guildId;
     }
 
     @Override
@@ -37,6 +42,7 @@ public class Player {
                 ", name='" + name + '\'' +
                 ", level=" + level +
                 ", role=" + role +
+                ", guildId=" + guildId +
                 '}';
     }
 
@@ -70,5 +76,13 @@ public class Player {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public Integer getGuildId() {
+        return guildId;
+    }
+
+    public void setGuildId(Integer guildId) {
+        this.guildId = guildId;
     }
 }
