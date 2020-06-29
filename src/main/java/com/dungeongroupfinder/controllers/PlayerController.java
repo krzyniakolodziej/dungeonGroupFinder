@@ -14,7 +14,7 @@ import java.util.List;
 public class PlayerController {
 
     @Autowired
-    PlayerService playerService;
+    private PlayerService playerService;
 
     @GetMapping
     public List<Player> getPlayers(@RequestParam(value = "name", required = false) String name) {
@@ -24,36 +24,30 @@ public class PlayerController {
         return playerService.getPlayersByName(name);
     }
 
-    @GetMapping("/{id}")
-    public Player getPlayerById(@PathVariable int id) {
-        return playerService.getPlayerById(id);
-    }
-
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public void addPlayer(@RequestBody Player player) {
         playerService.addPlayer(player);
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
     public void deletePlayer(@RequestBody int id) {
         playerService.deletePlayerById(id);
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping
     public void updatePlayer(@RequestBody Player player) {
         playerService.updatePlayer(player);
     }
 
-    /*@ResponseStatus(HttpStatus.ACCEPTED)
-    @PatchMapping
-    public void updateRoleById(@RequestBody int id, @RequestBody Roles role) {
-        playerService.updateRoleById(id, role);
-    }*/
+    @GetMapping("/{id}")
+    public Player getPlayerById(@PathVariable int id) {
+        return playerService.getPlayerById(id);
+    }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/{id}")
     public void updatePlayerRoleById(@PathVariable int id, @RequestBody Roles role) {
         playerService.updatePlayerRoleById(id, role);

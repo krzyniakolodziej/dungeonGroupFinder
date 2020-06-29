@@ -18,6 +18,6 @@ public interface PlayerRepository extends JpaRepository<Player, Integer> {
 
     @Transactional
     @Modifying
-    @Query("update Player set role = :role where id = :id")
+    @Query("UPDATE Player SET role = :role WHERE id = :id")
     void updatePlayerRoleById(@Param("id") int id, @Param("role") Roles role);
 }
