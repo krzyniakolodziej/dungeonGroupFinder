@@ -31,12 +31,6 @@ public class PlayerController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping
-    public void deletePlayer(@RequestBody int id) {
-        playerService.deletePlayerById(id);
-    }
-
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping
     public void updatePlayer(@RequestBody Player player) {
         playerService.updatePlayer(player);
@@ -51,5 +45,11 @@ public class PlayerController {
     @PatchMapping("/{id}")
     public void updatePlayerRoleById(@PathVariable int id, @RequestBody Roles role) {
         playerService.updatePlayerRoleById(id, role);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void deletePlayer(@PathVariable int id) {
+        playerService.deletePlayerById(id);
     }
 }

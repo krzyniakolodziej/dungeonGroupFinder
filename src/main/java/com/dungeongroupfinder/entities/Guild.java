@@ -9,14 +9,19 @@ public class Guild {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "guild_name")
     private String guildName;
+
+    public Guild() {}
+
+    public Guild(String guildName) {
+        this.guildName = guildName;
+    }
 
     public Guild(int id, String guildName) {
         this.id = id;
         this.guildName = guildName;
     }
-
-    public Guild() {}
 
     public int getId() {
         return id;

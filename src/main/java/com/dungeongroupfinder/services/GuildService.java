@@ -11,10 +11,18 @@ import java.util.List;
 public class GuildService {
 
     @Autowired
-    GuildRepository guildRepository;
+    private GuildRepository guildRepository;
 
     public List<Guild> getGuilds() {
         return guildRepository.findAll();
+    }
+
+    public void addGuild(Guild guild) {
+        guildRepository.save(guild);
+    }
+
+    public void deleteGuildById(int guildId) {
+        guildRepository.deleteById(guildId);
     }
 
 }
