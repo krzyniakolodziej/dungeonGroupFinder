@@ -32,4 +32,10 @@ public class GuildController {
         guildService.deleteGuildById(id);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping
+    public void modifyGuild(@RequestBody Guild guild) {
+        guildService.modifyGuild(guild);
+    }
+
 }

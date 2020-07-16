@@ -9,8 +9,9 @@ public class Guild {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "guild_name")
     private String guildName;
+    private Integer ownerId;
+    private boolean isFull = false;
 
     public Guild() {}
 
@@ -21,6 +22,13 @@ public class Guild {
     public Guild(int id, String guildName) {
         this.id = id;
         this.guildName = guildName;
+    }
+
+    public Guild(int id, String guildName, Integer ownerId, boolean isFull) {
+        this.id = id;
+        this.guildName = guildName;
+        this.ownerId = ownerId;
+        this.isFull = isFull;
     }
 
     public int getId() {
@@ -37,5 +45,21 @@ public class Guild {
 
     public void setGuildName(String guildName) {
         this.guildName = guildName;
+    }
+
+    public Integer getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public boolean isFull() {
+        return isFull;
+    }
+
+    public void setFull(boolean full) {
+        isFull = full;
     }
 }

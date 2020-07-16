@@ -21,6 +21,10 @@ public class GuildService {
         guildRepository.save(guild);
     }
 
+    public void modifyGuild(Guild guild) {
+        guildRepository.save(guild);
+    }
+
     public void deleteGuildById(int guildId) {
         guildRepository.deleteById(guildId);
     }
