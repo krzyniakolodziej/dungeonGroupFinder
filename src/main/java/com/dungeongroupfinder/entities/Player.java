@@ -12,7 +12,7 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Size(min = 5, message = "Username must be longer than 5 characters")
+    @Size(min = 3, message = "Username must be longer than 3 characters")
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
