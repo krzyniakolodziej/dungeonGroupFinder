@@ -18,7 +18,7 @@ public class Player {
     @Column(nullable = false)
     private int level;
     private Roles role;
-    private Integer guildId = null;
+    private Integer guildId;
 
     protected Player() {}
 

@@ -38,4 +38,10 @@ public class GuildController {
         guildService.modifyGuild(guild);
     }
 
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PostMapping("/join/{guildId}")
+    public void addPlayerToGuild(@PathVariable int guildId, @RequestBody int playerId) {
+        guildService.addPlayerToGuild(guildId, playerId);
+    }
+
 }

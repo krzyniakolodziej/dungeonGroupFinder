@@ -11,6 +11,7 @@ public class Guild {
     private int id;
     private String guildName;
     private Integer ownerId;
+    private Integer memberCount;
     private boolean isFull = false;
 
     public Guild() {}
@@ -22,6 +23,8 @@ public class Guild {
     public Guild(int id, String guildName) {
         this.id = id;
         this.guildName = guildName;
+        this.memberCount = 1;
+        this.isFull = false;
     }
 
     public Guild(int id, String guildName, Integer ownerId, boolean isFull) {
@@ -61,5 +64,27 @@ public class Guild {
 
     public void setFull(boolean full) {
         isFull = full;
+    }
+
+    public Integer getMemberCount() {
+        return memberCount;
+    }
+
+    public void setMemberCount(Integer memberCount) {
+        this.memberCount = memberCount;
+    }
+
+    public void addOneMember() {
+        this.memberCount += 1;
+        if (this.memberCount == 10) {
+            isFull = true;
+        }
+    }
+
+    public void removeOneMember() {
+        this.memberCount -= 1;
+        if (this.isFull && this.memberCount < 10) {
+            this.isFull = false;
+        }
     }
 }
