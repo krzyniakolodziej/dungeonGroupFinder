@@ -3,6 +3,7 @@ package com.dungeongroupfinder.entities;
 import com.dungeongroupfinder.enums.Roles;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "players")
@@ -11,6 +12,7 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Size(min = 3, message = "Username must be longer than 3 characters")
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)

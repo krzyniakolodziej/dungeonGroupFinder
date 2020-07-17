@@ -14,6 +14,9 @@ public interface PlayerRepository extends JpaRepository<Player, Integer> {
 
     List<Player> findByName(String name);
 
+    @Query(value = "SELECT * FROM players WHERE guild_id = :id", nativeQuery = true)
+    List<Player> findByGuildId(@Param("id") int id);
+
     Player findById(int id);
 
     @Transactional
