@@ -44,4 +44,10 @@ public class GuildController {
         guildService.addPlayerToGuild(guildId, playerId);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/leave/{guildId}")
+    public void removePlayerFromGuild(@PathVariable int guildId, @RequestBody int playerId) {
+        guildService.removePlayerFromGuild(guildId, playerId);
+    }
+
 }

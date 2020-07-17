@@ -43,4 +43,13 @@ public class GuildService {
         guildRepository.save(guild);
     }
 
+    public void removePlayerFromGuild(int guildId, int playerId) {
+        Player player = playerRepository.findById(playerId);
+        player.setGuildId(0);
+        playerRepository.save(player);
+        Guild guild = guildRepository.findById(guildId);
+        guild.removeOneMember();
+        guildRepository.save(guild);
+    }
+
 }
