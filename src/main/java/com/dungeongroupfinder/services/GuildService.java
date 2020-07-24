@@ -27,9 +27,7 @@ public class GuildService {
     }
 
     public void deleteGuildById(int guildId) {
-        List<Player> a = playerRepository.findByGuildId(guildId);
-        a.forEach(player -> player.setGuildId(0));
-        a.forEach(player -> playerRepository.save(player));
+        guildRepository.clearGivenGuild(guildId);
         guildRepository.deleteById(guildId);
     }
 
