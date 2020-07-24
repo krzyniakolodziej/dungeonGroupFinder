@@ -18,6 +18,7 @@ public class Guild {
 
     public Guild(String guildName) {
         this.guildName = guildName;
+        this.memberCount = 0;
     }
 
     public Guild(int id, String guildName) {
@@ -27,11 +28,11 @@ public class Guild {
         this.isFull = false;
     }
 
-    public Guild(int id, String guildName, Integer ownerId, boolean isFull) {
+    public Guild(int id, String guildName, Integer ownerId) {
         this.id = id;
         this.guildName = guildName;
         this.ownerId = ownerId;
-        this.isFull = isFull;
+        this.isFull = false;
     }
 
     public int getId() {
