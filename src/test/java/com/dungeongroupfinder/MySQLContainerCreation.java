@@ -1,38 +1,60 @@
 package com.dungeongroupfinder;
 
-import org.junit.Before;
-import org.junit.Rule;
+import com.dungeongroupfinder.entities.Player;
+import com.dungeongroupfinder.enums.Roles;
+import com.dungeongroupfinder.repository.PlayerRepository;
+import org.junit.ClassRule;
 import org.junit.Test;
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.wait.strategy.WaitStrategy;
-import org.testcontainers.containers.wait.strategy.WaitStrategyTarget;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.MySQLContainer;
+import static org.junit.Assert.*;
 
-import java.time.Duration;
-
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@ContextConfiguration(initializers = {MySQLContainerCreation.Initializer.class})
 public class MySQLContainerCreation {
-    public static Integer containerPort;
 
-    @Rule
-    public GenericContainer MySQLContainer = new GenericContainer("mysql:8.0.21")
-            .waitingFor(new WaitStrategy() {
-                @Override
-                public void waitUntilReady(WaitStrategyTarget waitStrategyTarget) {
+    @ClassRule
+    public static MySQLContainer mySQLContainer = new MySQLContainer("mysql:8.0.21")
+            .withDatabaseName("integration-tests-db")
+            .withUsername("name")
+            .withPassword("pass");
 
-                }
-
-                @Override
-                public WaitStrategy withStartupTimeout(Duration startupTimeout) {
-                    return null;
-                }})
-            .withExposedPorts(3306);
-
-    @Before
-    public void getContainerPort() {
-        containerPort = MySQLContainer.getFirstMappedPort();
+    static class Initializer
+            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                    "spring.datasource.url=" + mySQLContainer.getJdbcUrl(),
+                    "spring.datasource.username=" + mySQLContainer.getUsername(),
+                    "spring.datasource.password=" + mySQLContainer.getPassword()
+            ).applyTo(configurableApplicationContext.getEnvironment());
+        }
     }
 
     @Test
     public void hello() {
-        System.out.println("hello "+ containerPort);
+        System.out.println("hello");
     }
+
+    @Test
+    public void konsti() {
+        insertUsers(); // PRECONFIGURE DATABASE TO CONTAIN COLUMNS
+        int a = playerRepository.findAll().size();
+        assertEquals(a, 1);
+    }
+
+    @Autowired
+    PlayerRepository playerRepository;
+
+    private void insertUsers() {
+        playerRepository.save(new Player("TestName", 1, Roles.TANK));
+    }
+
 }
