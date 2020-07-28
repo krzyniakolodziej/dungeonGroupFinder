@@ -25,5 +25,5 @@ public interface PlayerRepository extends JpaRepository<Player, Integer> {
     void updatePlayerRoleById(@Param("id") int id, @Param("role") Roles role);
 
     @Query(value = "show tables", nativeQuery = true)
-    List<String> showTables();
+    List<String> getTables();
 }

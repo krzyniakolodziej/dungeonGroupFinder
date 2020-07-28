@@ -2,13 +2,10 @@ package com.dungeongroupfinder;
 
 import com.dungeongroupfinder.entities.Player;
 import com.dungeongroupfinder.enums.Roles;
+import com.dungeongroupfinder.repository.GuildRepository;
 import com.dungeongroupfinder.repository.PlayerRepository;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,14 +17,17 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.MySQLContainer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
+@Sql(scripts = {"/players_schema.sql", "/guilds_schema.sql"})
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ContextConfiguration(initializers = {MySQLContainerCreation.Initializer.class})
-public class MySQLContainerCreation {
+@ContextConfiguration(initializers = {GuildFinderIntegrationTests.Initializer.class})
+public class GuildFinderIntegrationTests {
 
     @ClassRule
     public static MySQLContainer mySQLContainer = new MySQLContainer("mysql:8.0.21")
@@ -47,15 +47,13 @@ public class MySQLContainerCreation {
     }
 
     @Test
-    public void hello() {
-        System.out.println("hello");
-    }
+    public void checkTables() {
+\        List<String> expectedTableList = new ArrayList<String>();
+        expectedTableList.add("guilds");
+        expectedTableList.add("players");
+        assertEquals(expectedTableList, playerRepository.getTables());
 
-   // @BeforeAll
-   // @Sql(scripts = {"", "/Users/kkolodziej/dumps/Dump20200727/dungeonGroupFinder_players.sql"})
-    //public static void dupa() {
-       // mySQLContainer.withInitScript("/Users/kkolodziej/dumps/Dump20200727/dungeonGroupFinder_guilds.sql");
-    //}
+    }
 
     @Test
     public void konsti() {
@@ -63,14 +61,16 @@ public class MySQLContainerCreation {
        // List<Player> d = playerRepository.findAll();
         //int a = d.size();
         //assertEquals(a, 6);
-        mySQLContainer.withInitScript("/Users/kkolodziej/dumps/Dump20200727/dungeonGroupFinder_players.sql");
-        System.out.println(playerRepository.showTables());
+        System.out.println(playerRepository.getTables());
         System.out.println(playerRepository.findAll());
 
     }
 
     @Autowired
     PlayerRepository playerRepository;
+
+    @Autowired
+    GuildRepository guildRepository;
 
     private void insertUsers() {
         playerRepository.save(new Player("TestName", 1, Roles.TANK));
