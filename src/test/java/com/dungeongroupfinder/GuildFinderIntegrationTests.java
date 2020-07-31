@@ -8,6 +8,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
@@ -18,13 +19,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.MySQLContainer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 @Sql(scripts = {"/players_schema.sql", "/guilds_schema.sql"})
 @RunWith(SpringRunner.class)
+@AutoConfigureMockMvc
 @SpringBootTest
 @ContextConfiguration(initializers = {GuildFinderIntegrationTests.Initializer.class})
 public class GuildFinderIntegrationTests {
@@ -48,7 +49,7 @@ public class GuildFinderIntegrationTests {
 
     @Test
     public void checkTables() {
-\        List<String> expectedTableList = new ArrayList<String>();
+        List<String> expectedTableList = new ArrayList<String>();
         expectedTableList.add("guilds");
         expectedTableList.add("players");
         assertEquals(expectedTableList, playerRepository.getTables());
@@ -77,9 +78,3 @@ public class GuildFinderIntegrationTests {
     }
 
 }
-
-/*
- dziedziczyc inne testy po tej klasie zeby baza odpalala sie raz
- przeniesc .sql tutaj i zkomitowac
- dodac use database do dumpa / sprobowac @sql
-* */
