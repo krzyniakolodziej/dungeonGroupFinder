@@ -39,7 +39,7 @@ CREATE TABLE `guilds` (
 
 LOCK TABLES `guilds` WRITE;
 /*!40000 ALTER TABLE `guilds` DISABLE KEYS */;
-INSERT INTO `guilds` VALUES (2,'JavaRaiders',NULL,0,0),(4,'guildName',NULL,0,0),(5,'TurboSzklanki',NULL,0,0);
+INSERT INTO `guilds` VALUES (5,'TurboSzklanki',0,0,0);
 /*!40000 ALTER TABLE `guilds` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

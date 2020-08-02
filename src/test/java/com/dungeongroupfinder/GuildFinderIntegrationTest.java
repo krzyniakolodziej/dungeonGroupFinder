@@ -1,7 +1,5 @@
 package com.dungeongroupfinder;
 
-import com.dungeongroupfinder.entities.Player;
-import com.dungeongroupfinder.enums.Roles;
 import com.dungeongroupfinder.repository.GuildRepository;
 import com.dungeongroupfinder.repository.PlayerRepository;
 import org.junit.ClassRule;
@@ -16,6 +14,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.MySQLContainer;
 
 import java.util.ArrayList;
@@ -27,8 +26,8 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @SpringBootTest
-@ContextConfiguration(initializers = {GuildFinderIntegrationTests.Initializer.class})
-public class GuildFinderIntegrationTests {
+@ContextConfiguration(initializers = {GuildFinderIntegrationTest.Initializer.class})
+public class GuildFinderIntegrationTest {
 
     @ClassRule
     public static MySQLContainer mySQLContainer = new MySQLContainer("mysql:8.0.21")
@@ -47,34 +46,13 @@ public class GuildFinderIntegrationTests {
         }
     }
 
-    @Test
-    public void checkTables() {
-        List<String> expectedTableList = new ArrayList<String>();
-        expectedTableList.add("guilds");
-        expectedTableList.add("players");
-        assertEquals(expectedTableList, playerRepository.getTables());
-
-    }
-
-    @Test
-    public void konsti() {
-       // insertUsers(); // PRECONFIGURE DATABASE TO CONTAIN COLUMNS
-       // List<Player> d = playerRepository.findAll();
-        //int a = d.size();
-        //assertEquals(a, 6);
-        System.out.println(playerRepository.getTables());
-        System.out.println(playerRepository.findAll());
-
-    }
+    @Autowired
+    protected MockMvc mvc;
 
     @Autowired
-    PlayerRepository playerRepository;
+    protected PlayerRepository playerRepository;
 
     @Autowired
-    GuildRepository guildRepository;
-
-    private void insertUsers() {
-        playerRepository.save(new Player("TestName", 1, Roles.TANK));
-    }
+    protected GuildRepository guildRepository;
 
 }
