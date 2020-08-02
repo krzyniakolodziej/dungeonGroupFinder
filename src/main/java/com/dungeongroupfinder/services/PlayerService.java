@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,7 +21,7 @@ public class PlayerService {
         return playerRepository.findAll();
     }
 
-    public Player getPlayerById(int id) {
+    public Optional<Player> getPlayerById(int id) {
         return playerRepository.findById(id);
     }
 

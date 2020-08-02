@@ -30,7 +30,7 @@ CREATE TABLE `guilds` (
   `member_count` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `guildName_UNIQUE` (`guild_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `guilds` (
 
 LOCK TABLES `guilds` WRITE;
 /*!40000 ALTER TABLE `guilds` DISABLE KEYS */;
-INSERT INTO `guilds` VALUES (5,'TurboSzklanki',0,0,0);
+INSERT INTO `guilds` VALUES (1,'TurboSzklanki',0,0,0);
 /*!40000 ALTER TABLE `guilds` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

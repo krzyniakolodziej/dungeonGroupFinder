@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PlayerRepository extends JpaRepository<Player, Integer> {
 
@@ -17,7 +18,7 @@ public interface PlayerRepository extends JpaRepository<Player, Integer> {
     @Query(value = "SELECT * FROM players WHERE guild_id = :id", nativeQuery = true)
     List<Player> findByGuildId(@Param("id") int id);
 
-    Player findById(int id);
+    Optional<Player> findById(int id);
 
     @Transactional
     @Modifying
