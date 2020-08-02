@@ -22,6 +22,13 @@ public class Player {
 
     protected Player() {}
 
+    public Player(String name, int level, Roles role) {
+        this.name = name;
+        this.level = level;
+        this.role = role;
+        this.guildId = 0;
+    }
+
     public Player(String name, int level, Roles role, Integer guildId) {
         this.name = name;
         this.level = level;
