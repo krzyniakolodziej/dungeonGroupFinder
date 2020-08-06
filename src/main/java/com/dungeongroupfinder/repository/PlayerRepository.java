@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PlayerRepository extends JpaRepository<Player, Integer> {
 
@@ -18,12 +17,7 @@ public interface PlayerRepository extends JpaRepository<Player, Integer> {
     @Query(value = "SELECT * FROM players WHERE guild_id = :id", nativeQuery = true)
     List<Player> findByGuildId(@Param("id") int id);
 
-    Optional<Player> findById(int id);
-
-    @Transactional
-    @Modifying
-    @Query("UPDATE Player SET role = :role WHERE id = :id")
-    void updatePlayerRoleById(@Param("id") int id, @Param("role") Roles role);
+    Player findById(int id);
 
     @Query(value = "show tables", nativeQuery = true)
     List<String> getTables();

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,7 +20,7 @@ public class PlayerService {
         return playerRepository.findAll();
     }
 
-    public Optional<Player> getPlayerById(int id) {
+    public Player getPlayerById(int id) {
         return playerRepository.findById(id);
     }
 
@@ -29,8 +28,8 @@ public class PlayerService {
         return playerRepository.findByName(name);
     }
 
-    public void addPlayer(Player player) {
-        playerRepository.save(player);
+    public Player createPlayer(Player player) {
+        return playerRepository.saveAndFlush(player);
     }
 
     public void deletePlayerById(int id) {
@@ -39,10 +38,6 @@ public class PlayerService {
 
     public void updatePlayer(Player player) {
         playerRepository.save(player);
-    }
-
-    public void updatePlayerRoleById(int id, Roles role) {
-        playerRepository.updatePlayerRoleById(id, role);
     }
 
 }

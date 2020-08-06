@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestDataValidityTest extends GuildFinderIntegrationTest {
+public class TableDataValidityTest extends GuildFinderIntegrationTest {
 
     @Test
     public void testTablesExistance() {
