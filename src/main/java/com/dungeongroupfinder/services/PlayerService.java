@@ -28,8 +28,8 @@ public class PlayerService {
         return playerRepository.findByName(name);
     }
 
-    public void addPlayer(Player player) {
-        playerRepository.save(player);
+    public Player createPlayer(Player player) {
+        return playerRepository.saveAndFlush(player);
     }
 
     public void deletePlayerById(int id) {
@@ -38,10 +38,6 @@ public class PlayerService {
 
     public void updatePlayer(Player player) {
         playerRepository.save(player);
-    }
-
-    public void updatePlayerRoleById(int id, Roles role) {
-        playerRepository.updatePlayerRoleById(id, role);
     }
 
 }

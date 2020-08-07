@@ -19,11 +19,6 @@ public interface PlayerRepository extends JpaRepository<Player, Integer> {
 
     Player findById(int id);
 
-    @Transactional
-    @Modifying
-    @Query("UPDATE Player SET role = :role WHERE id = :id")
-    void updatePlayerRoleById(@Param("id") int id, @Param("role") Roles role);
-
     @Query(value = "show tables", nativeQuery = true)
     List<String> getTables();
 }

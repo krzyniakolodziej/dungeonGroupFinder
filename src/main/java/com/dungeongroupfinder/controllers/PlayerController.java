@@ -6,6 +6,7 @@ import com.dungeongroupfinder.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -26,30 +27,40 @@ public class PlayerController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void addPlayer(@RequestBody Player player) {
-        playerService.addPlayer(player);
+    public Player createPlayer(@RequestBody Player player) {
+        return playerService.createPlayer(player);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping
-    public void updatePlayer(@RequestBody Player player) {
-        playerService.updatePlayer(player);
+    @PutMapping("/{id}")
+    public Player updatePlayer(@PathVariable int id, @RequestBody Player player) {
+        Player foundPlayer = playerService.getPlayerById(id);
+        if(foundPlayer == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "A player with given id doesn't exist.");
+        }
+        player.setId(id);
+        return playerService.createPlayer(player);
     }
 
     @GetMapping("/{id}")
     public Player getPlayerById(@PathVariable int id) {
-        return playerService.getPlayerById(id);
+        Player foundPlayer = playerService.getPlayerById(id);
+        if(foundPlayer == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "A player with given id doesn't exist.");
+        }
+        return foundPlayer;
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/{id}")
-    public void updatePlayerRoleById(@PathVariable int id, @RequestBody Roles role) {
-        playerService.updatePlayerRoleById(id, role);
-    }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deletePlayer(@PathVariable int id) {
+        if(playerService.getPlayerById(id) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "A player with given id doesn't exist.");
+        }
         playerService.deletePlayerById(id);
     }
 }
