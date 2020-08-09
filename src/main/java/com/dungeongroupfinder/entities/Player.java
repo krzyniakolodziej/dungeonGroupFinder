@@ -12,9 +12,12 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Size(min = 3, message = "Username must be longer than 3 characters")
+    @Size(min = 5, message = "Username must be longer than 5 characters")
     @Column(nullable = false)
     private String name;
+    @Size(min = 5, message = "Password must be longer than 5 characters")
+    private String password;
+    private String matchingPassword;
     @Column(nullable = false)
     private int level;
     private Roles role;
@@ -93,5 +96,21 @@ public class Player {
 
     public void setGuildId(Integer guildId) {
         this.guildId = guildId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getMatchingPassword() {
+        return matchingPassword;
+    }
+
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
     }
 }

@@ -1,19 +1,19 @@
 package com.dungeongroupfinder.security;
 
+import com.dungeongroupfinder.entities.Player;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 public class PlayerDetails implements UserDetails {
 
-    private String username;
+    private Player player;
 
-    public PlayerDetails(String username) {
-        this.username = username;
+    public PlayerDetails(Player player) {
+        this.player = player;
     }
 
     public PlayerDetails() {};
@@ -25,12 +25,12 @@ public class PlayerDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "pass";
+        return player.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return player.getName();
     }
 
     @Override

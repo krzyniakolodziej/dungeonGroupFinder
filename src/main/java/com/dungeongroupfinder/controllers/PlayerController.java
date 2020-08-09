@@ -22,7 +22,7 @@ public class PlayerController {
        if (name == null || name.isEmpty()) {
            return playerService.getPlayers();
        }
-        return playerService.getPlayersByName(name);
+        return playerService.getPlayerByName(name);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
