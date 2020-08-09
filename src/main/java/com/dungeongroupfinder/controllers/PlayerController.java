@@ -27,8 +27,9 @@ public class PlayerController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Player createPlayer(@RequestBody Player player) {
-        return playerService.createPlayer(player);
+    public Integer createPlayer(@RequestBody Player player) {
+        Player playerToBeCreated = playerService.createPlayer(player);
+        return playerToBeCreated.getId();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
