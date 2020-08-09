@@ -4,7 +4,9 @@ import com.dungeongroupfinder.entities.Guild;
 import com.dungeongroupfinder.entities.Player;
 import com.dungeongroupfinder.repository.GuildRepository;
 import com.dungeongroupfinder.repository.PlayerRepository;
+import com.dungeongroupfinder.security.PlayerDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,20 +20,34 @@ public class GuildService {
     @Autowired
     private PlayerRepository playerRepository;
 
+    @Autowired
+    private PlayerDetails playerDetails;
+
     public List<Guild> getGuilds() {
         return guildRepository.findAll();
     }
 
-    public void addGuild(Guild guild) {
+    public void createGuild(Guild guild) {
+        Integer ownerId = playerDetails.getPlayer().getId();
+        guild.setOwnerId(ownerId);
         guildRepository.save(guild);
     }
 
     public void deleteGuildById(int guildId) {
+        Integer playerId = playerDetails.getPlayer().getId();
+        Guild guildToBeDeleted = guildRepository.findById(guildId);
+        if(playerId != guildToBeDeleted.getOwnerId()) {
+            throw new AccessDeniedException("Only guild owner can delete the guild.");
+        }
         guildRepository.clearGivenGuild(guildId);
         guildRepository.deleteById(guildId);
     }
 
     public void modifyGuild(Guild guild) {
+        Integer playerId = playerDetails.getPlayer().getId();
+        if(playerId != guild.getOwnerId()) {
+            throw new AccessDeniedException("Only guild owner can modify the guild.");
+        }
         guildRepository.save(guild);
     }
 

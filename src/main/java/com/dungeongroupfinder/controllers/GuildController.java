@@ -22,8 +22,8 @@ public class GuildController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void addGuild(@RequestBody Guild guild) {
-        guildService.addGuild(guild);
+    public void createGuild(@RequestBody Guild guild) {
+        guildService.createGuild(guild);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
