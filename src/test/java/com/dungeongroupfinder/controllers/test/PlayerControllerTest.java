@@ -5,6 +5,8 @@ import com.dungeongroupfinder.entities.Player;
 import com.dungeongroupfinder.enums.Roles;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static com.dungeongroupfinder.utils.TestUtils.asJsonString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -19,11 +21,11 @@ public class PlayerControllerTest extends GuildFinderIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].id").value(2))
                 .andExpect(jsonPath("$[0].name").value("Brox"))
                 .andExpect(jsonPath("$[0].level").value(3))
                 .andExpect(jsonPath("$[0].role").value("HEALER"))
-                .andExpect(jsonPath("$[0].guildId").value(0));
+                .andExpect(jsonPath("$[0].guildId").value(2));
     }
 
     @Test
@@ -32,11 +34,11 @@ public class PlayerControllerTest extends GuildFinderIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].id").value(2))
                 .andExpect(jsonPath("$[0].name").value("Brox"))
                 .andExpect(jsonPath("$[0].level").value(3))
                 .andExpect(jsonPath("$[0].role").value("HEALER"))
-                .andExpect(jsonPath("$[0].guildId").value(0));
+                .andExpect(jsonPath("$[0].guildId").value(2));
     }
 
     @Test
@@ -47,77 +49,79 @@ public class PlayerControllerTest extends GuildFinderIntegrationTest {
 
     @Test
     public void testCreatePlayer() throws Exception {
-        mvc.perform(post("/players")
-                .content(asJsonString(new Player("Moo", 12, Roles.TANK)))
+        MvcResult response = mvc.perform(post("/players")
+                .content(asJsonString(new Player("Moo", 12, Roles.TANK, "password")))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isCreated());
+                    .andExpect(status().isCreated())
+                .andReturn();
 
-        mvc.perform(get("/players/2"))
+        String id = response.getResponse().getContentAsString();
+
+        mvc.perform(get(String.format("/players/%s", id)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isNotEmpty())
-                .andExpect(jsonPath("$.name").value("Moo"));
+                .andExpect(jsonPath("$[0].name").value("Moo"));
     }
 
     @Test
     public void testPutPlayer() throws Exception {
-        mvc.perform(post("/players")
-                .content(asJsonString(new Player("Pear", 15, Roles.DAMAGE_DEALER)))
+        MvcResult response = mvc.perform(post("/players")
+                .content(asJsonString(new Player("Pear", 15,
+                        Roles.DAMAGE_DEALER, "password")))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andReturn();
 
-        mvc.perform(get("/players?name=Pear"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].id").value(2))
-                .andExpect(jsonPath("$[0].name").value("Pear"))
-                .andExpect(jsonPath("$[0].level").value(15))
-                .andExpect(jsonPath("$[0].role").value("DAMAGE_DEALER"))
-                .andExpect(jsonPath("$[0].guildId").value(0));
+        String id = response.getResponse().getContentAsString();
 
-        mvc.perform(put("/players/2")
-            .content(asJsonString(new Player("Apple", 20, Roles.TANK)))
+        mvc.perform(put(String.format("/players/%s", id))
+            .content(asJsonString(new Player("Apple", 20,
+                    Roles.TANK, "otherpassword")))
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        mvc.perform(get("/players?name=Apple"))
+        mvc.perform(get(String.format("/players/%s", id)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].id").value(2))
+                .andExpect(jsonPath("$[0].id").value(id))
                 .andExpect(jsonPath("$[0].name").value("Apple"))
                 .andExpect(jsonPath("$[0].level").value(20))
                 .andExpect(jsonPath("$[0].role").value("TANK"))
-                .andExpect(jsonPath("$[0].guildId").value(0));
+                .andExpect(jsonPath("$[0].password").value("otherpassword"));
     }
 
     @Test
     public void testGetPlayerById() throws Exception {
-        mvc.perform(get("/players/1"))
+        mvc.perform(get("/players/2"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isNotEmpty())
-                .andExpect(jsonPath("$.name").value("Brox"));
+                .andExpect(jsonPath("$[0].name").value("Brox"));
 
     }
 
     @Test
     public void testDeletePlayer() throws Exception {
-       mvc.perform(post("/players")
-                .content(asJsonString(new Player("Trolley", 1, Roles.DAMAGE_DEALER)))
+       MvcResult response = mvc.perform(post("/players")
+                .content(asJsonString(new Player("Banana", 1,
+                        Roles.DAMAGE_DEALER, "password")))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+               .andReturn();
 
-       mvc.perform(get("/players/2"))
+       String id = response.getResponse().getContentAsString();
+
+       mvc.perform(get(String.format("/players/%s", id)))
                .andExpect(status().isOk());
 
-       mvc.perform(delete("/players/2"))
+       mvc.perform(delete(String.format("/players/%s", id)))
                .andExpect(status().isNoContent());
 
-       mvc.perform(get("/players/2"))
+       mvc.perform(get(String.format("/players/%s", id)))
                .andExpect(status().isNotFound());
     }
 

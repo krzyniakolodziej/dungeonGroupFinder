@@ -52,7 +52,7 @@ public class GuildService {
     }
 
     public void addPlayerToGuild(int guildId, int playerId) {
-        Player player = playerRepository.findById(playerId);
+        Player player = playerRepository.findById(playerId).get(0);
         player.setGuildId(guildId);
         playerRepository.save(player);
         Guild guild = guildRepository.findById(guildId);
@@ -61,7 +61,7 @@ public class GuildService {
     }
 
     public void removePlayerFromGuild(int guildId, int playerId) {
-        Player player = playerRepository.findById(playerId);
+        Player player = playerRepository.findById(playerId).get(0);
         player.setGuildId(0);
         playerRepository.save(player);
         Guild guild = guildRepository.findById(guildId);

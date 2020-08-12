@@ -35,7 +35,7 @@ public class PlayerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public Player updatePlayer(@PathVariable int id, @RequestBody Player player) {
-        Player foundPlayer = playerService.getPlayerById(id);
+        Player foundPlayer = playerService.getPlayerById(id).get(0);
         if(foundPlayer == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "A player with given id doesn't exist.");
@@ -45,9 +45,9 @@ public class PlayerController {
     }
 
     @GetMapping("/{id}")
-    public Player getPlayerById(@PathVariable int id) {
-        Player foundPlayer = playerService.getPlayerById(id);
-        if(foundPlayer == null) {
+    public List<Player> getPlayerById(@PathVariable int id) {
+        List<Player> foundPlayer = playerService.getPlayerById(id);
+        if(foundPlayer == null || foundPlayer.get(0) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "A player with given id doesn't exist.");
         }

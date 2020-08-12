@@ -25,23 +25,28 @@ public class Player {
 
     protected Player() {}
 
-    public Player(String name, int level, Roles role) {
+    public Player(String name, int level, Roles role, String password) {
         this.name = name;
         this.level = level;
         this.role = role;
         this.guildId = 0;
+        this.password = password;
     }
 
-    public Player(String name, int level, Roles role, Integer guildId) {
+    public Player(String name, int level, Roles role) {
         this.name = name;
         this.level = level;
         this.role = role;
         this.guildId = guildId;
     }
 
-    public Player(int id, String name, int level, Roles role, Integer guildId) {
+    public Player(int id, @Size(min = 5, message = "Username must be longer than 5 characters") String name,
+                  @Size(min = 5, message = "Password must be longer than 5 characters") String password,
+                  String matchingPassword, int level, Roles role, Integer guildId) {
         this.id = id;
         this.name = name;
+        this.password = password;
+        this.matchingPassword = matchingPassword;
         this.level = level;
         this.role = role;
         this.guildId = guildId;
