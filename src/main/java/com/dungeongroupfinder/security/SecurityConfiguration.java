@@ -30,7 +30,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/home").permitAll().and()
                 .formLogin().and()
                 .csrf()
-                .disable();
+                .disable()
+                .logout()
+                .logoutSuccessUrl("/login");
     }
 
     @Bean

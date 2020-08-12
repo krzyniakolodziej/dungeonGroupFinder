@@ -1,11 +1,14 @@
 package com.dungeongroupfinder.controllers;
 
 import com.dungeongroupfinder.entities.Guild;
+import com.dungeongroupfinder.security.PlayerDetails;
 import com.dungeongroupfinder.services.GuildService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -22,32 +25,36 @@ public class GuildController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void createGuild(@RequestBody Guild guild) {
-        guildService.createGuild(guild);
+    public void createGuild(@RequestBody Guild guild, Principal principal) {
+        guildService.createGuild(guild, (PlayerDetails) ((Authentication) principal).getPrincipal());
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping
-    public void deleteGuildById(@RequestBody int id) {
-        guildService.deleteGuildById(id);
+    @DeleteMapping("/{id}")
+    public void deleteGuildById(@PathVariable int id, Principal principal) {
+        guildService.deleteGuildById(id, (PlayerDetails) ((Authentication) principal).getPrincipal());
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping
-    public void modifyGuild(@RequestBody Guild guild) {
-        guildService.modifyGuild(guild);
+    public void modifyGuild(@RequestBody Guild guild, Principal principal) {
+        guildService.modifyGuild(guild, (PlayerDetails) ((Authentication) principal).getPrincipal());
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/join/{guildId}")
-    public void addPlayerToGuild(@PathVariable int guildId, @RequestBody int playerId) {
-        guildService.addPlayerToGuild(guildId, playerId);
+    public void addPlayerToGuild(@PathVariable int guildId,
+                                 @RequestBody int playerId, Principal principal) {
+        guildService.addPlayerToGuild(guildId, playerId,
+                (PlayerDetails) ((Authentication) principal).getPrincipal());
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/leave/{guildId}")
-    public void removePlayerFromGuild(@PathVariable int guildId, @RequestBody int playerId) {
-        guildService.removePlayerFromGuild(guildId, playerId);
+    public void removePlayerFromGuild(@PathVariable int guildId, @RequestBody int playerId,
+                                      Principal principal) {
+        guildService.removePlayerFromGuild(guildId, playerId,
+                (PlayerDetails) ((Authentication) principal).getPrincipal());
     }
 
 }

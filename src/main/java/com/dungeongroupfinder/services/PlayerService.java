@@ -2,6 +2,7 @@ package com.dungeongroupfinder.services;
 
 import com.dungeongroupfinder.entities.Player;
 import com.dungeongroupfinder.repository.PlayerRepository;
+import com.dungeongroupfinder.security.PlayerDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +26,11 @@ public class PlayerService {
         return playerRepository.findByName(name);
     }
 
-    public Player createPlayer(Player player) {
+    public Player createPlayer(Player player, PlayerDetails playerDetails) {
         return playerRepository.saveAndFlush(player);
     }
 
-    public void deletePlayerById(int id) {
+    public void deletePlayerById(int id, PlayerDetails playerDetails) {
         playerRepository.deleteById(id);
     }
 

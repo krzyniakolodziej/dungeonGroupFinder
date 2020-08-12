@@ -20,21 +20,18 @@ public class GuildService {
     @Autowired
     private PlayerRepository playerRepository;
 
-    @Autowired
-    private PlayerDetails playerDetails;
-
     public List<Guild> getGuilds() {
         return guildRepository.findAll();
     }
 
-    public void createGuild(Guild guild) {
+    public void createGuild(Guild guild, PlayerDetails playerDetails) {
         Integer ownerId = playerDetails.getPlayer().getId();
         guild.setOwnerId(ownerId);
         guildRepository.save(guild);
     }
 
-    public void deleteGuildById(int guildId) {
-        Integer playerId = playerDetails.getPlayer().getId();
+    public void deleteGuildById(int guildId, PlayerDetails playerDetails) {
+        int playerId = playerDetails.getPlayer().getId();
         Guild guildToBeDeleted = guildRepository.findById(guildId);
         if(playerId != guildToBeDeleted.getOwnerId()) {
             throw new AccessDeniedException("Only guild owner can delete the guild.");
@@ -43,7 +40,7 @@ public class GuildService {
         guildRepository.deleteById(guildId);
     }
 
-    public void modifyGuild(Guild guild) {
+    public void modifyGuild(Guild guild, PlayerDetails playerDetails) {
         Integer playerId = playerDetails.getPlayer().getId();
         if(playerId != guild.getOwnerId()) {
             throw new AccessDeniedException("Only guild owner can modify the guild.");
@@ -51,7 +48,7 @@ public class GuildService {
         guildRepository.save(guild);
     }
 
-    public void addPlayerToGuild(int guildId, int playerId) {
+    public void addPlayerToGuild(int guildId, int playerId, PlayerDetails playerDetails) {
         Player player = playerRepository.findById(playerId).get(0);
         player.setGuildId(guildId);
         playerRepository.save(player);
@@ -60,7 +57,7 @@ public class GuildService {
         guildRepository.save(guild);
     }
 
-    public void removePlayerFromGuild(int guildId, int playerId) {
+    public void removePlayerFromGuild(int guildId, int playerId, PlayerDetails playerDetails) {
         Player player = playerRepository.findById(playerId).get(0);
         player.setGuildId(0);
         playerRepository.save(player);
