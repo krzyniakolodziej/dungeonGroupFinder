@@ -80,18 +80,15 @@ public class GuildController {
         return foundPlayerList;
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    @PostMapping("/join/{guildId}")
-    public void addPlayerToGuild(@PathVariable int guildId,
-                                 @RequestBody int playerId, Principal principal) {
-        guildService.addPlayerToGuild(guildId, playerId,
-                HelperClass.castToPlayerDetails(principal));
-    }
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/leave/{guildId}")
     public void removePlayerFromGuild(@PathVariable int guildId, @RequestBody int playerId,
                                       Principal principal) {
+        PlayerDetails playerDetails = HelperClass.castToPlayerDetails(principal);
+        if(playerId != playerDetails.getPlayer().getId()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    getErrorMessage(ErrorType.NO_PERMISSION));
+        }
         guildService.removePlayerFromGuild(guildId, playerId,
                 HelperClass.castToPlayerDetails(principal));
     }
