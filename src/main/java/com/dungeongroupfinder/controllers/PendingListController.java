@@ -32,8 +32,9 @@ public class PendingListController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
-    public void deleteFromPendingList(@RequestBody int playerId) {
-        pendingList.deleteFromPendingList(playerId);
+    public void deleteFromPendingList(@RequestBody int playerId, Principal principal) {
+        PlayerDetails playerDetails = HelperClass.castToPlayerDetails(principal);
+        pendingList.deleteFromPendingList(playerId, playerDetails);
     }
 
 }
