@@ -1,12 +1,9 @@
 package com.dungeongroupfinder.objects;
 
 
-import com.dungeongroupfinder.entities.Guild;
 import com.dungeongroupfinder.messages.ErrorType;
-import com.dungeongroupfinder.repository.PlayerRepository;
 import com.dungeongroupfinder.security.PlayerDetails;
 import com.dungeongroupfinder.services.GuildService;
-import com.dungeongroupfinder.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,10 +16,9 @@ import static com.dungeongroupfinder.messages.ErrorMessages.getErrorMessage;
 
 public class PendingList {
 
-    private static List<PendingMember> pendingMemberList = new ArrayList<>();
+    private static List<PendingMember> pendingMemberList = new ArrayList<>(); // TODO change to hashmap
 
-    public PendingList() {
-    }
+    public PendingList() { }
 
     public List<PendingMember> getPendingList() {
         return pendingMemberList;
@@ -33,7 +29,7 @@ public class PendingList {
     }
 
     @Autowired
-    GuildService guildService;
+    private GuildService guildService;
     public void deleteFromPendingList(int pendingPlayerId, PlayerDetails playerDetails) {
         List<PendingMember> memberToBeRemovedList = pendingMemberList.stream()
                 .filter(member -> member.getPlayer().getId() == pendingPlayerId)
@@ -49,7 +45,7 @@ public class PendingList {
 
         if(pendingPlayerId == currentlyLoggedPlayerID
                 || pendingGuildOwnerID == currentlyLoggedPlayerID) {
-            pendingMemberList.remove(memberToBeRemovedList); //only guild owner/logged players can remove from the list
+            pendingMemberList.removeAll(memberToBeRemovedList); //only guild owner/logged players can remove from the list
         } else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     getErrorMessage(ErrorType.NO_PERMISSION));

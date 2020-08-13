@@ -58,7 +58,7 @@ public class GuildController {
     public Guild updateGuild(@PathVariable int id, @RequestBody Guild guild, Principal principal) {
         PlayerDetails playerDetails = HelperClass.castToPlayerDetails(principal);
         List<Guild> guildList = guildService.getGuildById(id);
-        if(guildList == null || guildList.get(0) == null) {
+        if(guildList == null || guildList.get(0) == null) { //TODO move error handling to newclass
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     getErrorMessage(ErrorType.GUILD_ID_DOESNT_EXIST));
         } else if (guildList.get(0).getOwnerId() != playerDetails.getPlayer().getId()) {
