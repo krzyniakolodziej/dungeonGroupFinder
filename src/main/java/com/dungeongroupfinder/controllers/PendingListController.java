@@ -16,7 +16,7 @@ import java.util.List;
 public class PendingListController {
 
     @Autowired
-    PendingList pendingList;
+    private PendingList pendingList;
 
     @GetMapping
     public List<PendingMember> getPendingList() {
