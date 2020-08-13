@@ -2,6 +2,7 @@ package com.dungeongroupfinder.controllers;
 
 import com.dungeongroupfinder.entities.Guild;
 import com.dungeongroupfinder.helpers.HelperClass;
+import com.dungeongroupfinder.messages.ErrorType;
 import com.dungeongroupfinder.security.PlayerDetails;
 import com.dungeongroupfinder.services.GuildService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
+
+import static com.dungeongroupfinder.messages.ErrorMessages.getErrorMessage;
 
 @RestController
 @RequestMapping("/guilds")
@@ -30,7 +33,7 @@ public class GuildController {
         PlayerDetails playerDetails = HelperClass.castToPlayerDetails(principal);
         if(playerDetails.getPlayer().getGuildId() != 0) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    "This player has a guild already.");
+                    getErrorMessage(ErrorType.PLAYER_HAS_ALREADY_GUILD));
         }
         return guildService.createGuild(guild, playerDetails);
     }
@@ -42,10 +45,10 @@ public class GuildController {
         List<Guild> guildList = guildService.getGuildById(id);
         if(guildList == null || guildList.get(0) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "A guild with given id doesn't exist.");
+                    getErrorMessage(ErrorType.GUILD_ID_DOESNT_EXIST));
         } else if (guildList.get(0).getOwnerId() != playerDetails.getPlayer().getId()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "You don't have permission to do that.");
+                    getErrorMessage(ErrorType.NO_PERMISSION));
         }
         guildService.deleteGuildById(id, playerDetails);
     }
@@ -57,10 +60,10 @@ public class GuildController {
         List<Guild> guildList = guildService.getGuildById(id);
         if(guildList == null || guildList.get(0) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "A guild with given id doesn't exist.");
+                    getErrorMessage(ErrorType.GUILD_ID_DOESNT_EXIST));
         } else if (guildList.get(0).getOwnerId() != playerDetails.getPlayer().getId()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "You don't have permission to do this.");
+                    getErrorMessage(ErrorType.NO_PERMISSION));
         }
         guild.setId(id);
         guild.setOwnerId(guildList.get(0).getOwnerId());
@@ -72,7 +75,7 @@ public class GuildController {
         List<Guild> foundPlayerList = guildService.getGuildById(id);
         if(foundPlayerList == null || foundPlayerList.get(0) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "A guild with given id doesn't exist.");
+                    getErrorMessage(ErrorType.GUILD_ID_DOESNT_EXIST));
         }
         return foundPlayerList;
     }
