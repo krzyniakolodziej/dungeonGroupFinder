@@ -12,9 +12,12 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Size(min = 3, message = "Username must be longer than 3 characters")
+    @Size(min = 5, message = "Username must be longer than 5 characters")
     @Column(nullable = false)
     private String name;
+    @Size(min = 5, message = "Password must be longer than 5 characters")
+    private String password;
+    private String matchingPassword;
     @Column(nullable = false)
     private int level;
     private Roles role;
@@ -22,23 +25,22 @@ public class Player {
 
     protected Player() {}
 
-    public Player(String name, int level, Roles role) {
+    public Player(String name, int level, Roles role,
+                  @Size(min = 5, message = "Password must be longer than 5 characters") String password) {
         this.name = name;
         this.level = level;
         this.role = role;
         this.guildId = 0;
+        this.password = password;
     }
 
-    public Player(String name, int level, Roles role, Integer guildId) {
-        this.name = name;
-        this.level = level;
-        this.role = role;
-        this.guildId = guildId;
-    }
-
-    public Player(int id, String name, int level, Roles role, Integer guildId) {
+    public Player(int id, @Size(min = 5, message = "Username must be longer than 5 characters") String name,
+                  @Size(min = 5, message = "Password must be longer than 5 characters") String password,
+                  String matchingPassword, int level, Roles role, Integer guildId) {
         this.id = id;
         this.name = name;
+        this.password = password;
+        this.matchingPassword = matchingPassword;
         this.level = level;
         this.role = role;
         this.guildId = guildId;
@@ -94,4 +96,21 @@ public class Player {
     public void setGuildId(Integer guildId) {
         this.guildId = guildId;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getMatchingPassword() {
+        return matchingPassword;
+    }
+
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
+    }
+
 }

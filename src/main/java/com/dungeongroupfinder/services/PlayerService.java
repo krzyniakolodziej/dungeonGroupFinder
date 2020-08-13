@@ -1,14 +1,12 @@
 package com.dungeongroupfinder.services;
 
 import com.dungeongroupfinder.entities.Player;
-import com.dungeongroupfinder.enums.Roles;
 import com.dungeongroupfinder.repository.PlayerRepository;
+import com.dungeongroupfinder.security.PlayerDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PlayerService {
@@ -20,19 +18,19 @@ public class PlayerService {
         return playerRepository.findAll();
     }
 
-    public Player getPlayerById(int id) {
+    public List<Player> getPlayerById(int id) {
         return playerRepository.findById(id);
     }
 
-    public List<Player> getPlayersByName(String name) {
+    public List<Player> getPlayerByName(String name) {
         return playerRepository.findByName(name);
     }
 
-    public Player createPlayer(Player player) {
+    public Player createPlayer(Player player, PlayerDetails playerDetails) {
         return playerRepository.saveAndFlush(player);
     }
 
-    public void deletePlayerById(int id) {
+    public void deletePlayerById(int id, PlayerDetails playerDetails) {
         playerRepository.deleteById(id);
     }
 
