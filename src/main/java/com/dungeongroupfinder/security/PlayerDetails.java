@@ -1,10 +1,12 @@
 package com.dungeongroupfinder.security;
 
 import com.dungeongroupfinder.entities.Player;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.Collection;
 

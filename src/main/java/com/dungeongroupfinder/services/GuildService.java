@@ -24,16 +24,16 @@ public class GuildService {
         return guildRepository.findAll();
     }
 
-    public void createGuild(Guild guild, PlayerDetails playerDetails) {
+    public Guild createGuild(Guild guild, PlayerDetails playerDetails) {
         Integer ownerId = playerDetails.getPlayer().getId();
         guild.setOwnerId(ownerId);
-        guildRepository.save(guild);
+        return guildRepository.saveAndFlush(guild);
     }
 
     public void deleteGuildById(int guildId, PlayerDetails playerDetails) {
         int playerId = playerDetails.getPlayer().getId();
-        Guild guildToBeDeleted = guildRepository.findById(guildId);
-        if(playerId != guildToBeDeleted.getOwnerId()) {
+        List<Guild> guildToBeDeleted = guildRepository.findById(guildId);
+        if(playerId != guildToBeDeleted.get(0).getOwnerId()) {
             throw new AccessDeniedException("Only guild owner can delete the guild.");
         }
         guildRepository.clearGivenGuild(guildId);
@@ -48,22 +48,26 @@ public class GuildService {
         guildRepository.save(guild);
     }
 
+    public List<Guild> getGuildById(int id) {
+        return guildRepository.findById(id);
+    }
+
     public void addPlayerToGuild(int guildId, int playerId, PlayerDetails playerDetails) {
         Player player = playerRepository.findById(playerId).get(0);
         player.setGuildId(guildId);
         playerRepository.save(player);
-        Guild guild = guildRepository.findById(guildId);
-        guild.addOneMember();
-        guildRepository.save(guild);
+        List<Guild> guild = guildRepository.findById(guildId);
+        guild.get(0).addOneMember();
+        guildRepository.save(guild.get(0));
     }
 
     public void removePlayerFromGuild(int guildId, int playerId, PlayerDetails playerDetails) {
         Player player = playerRepository.findById(playerId).get(0);
         player.setGuildId(0);
         playerRepository.save(player);
-        Guild guild = guildRepository.findById(guildId);
-        guild.removeOneMember();
-        guildRepository.save(guild);
+        List<Guild> guild = guildRepository.findById(guildId);
+        guild.get(0).removeOneMember();
+        guildRepository.save(guild.get(0));
     }
 
 }

@@ -7,9 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface GuildRepository extends JpaRepository<Guild, Integer> {
 
-    Guild findById(int id);
+    List<Guild> findById(int id);
 
     @Transactional
     @Modifying
