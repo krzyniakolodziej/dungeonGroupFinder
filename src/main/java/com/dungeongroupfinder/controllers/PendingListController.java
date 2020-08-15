@@ -23,6 +23,11 @@ public class PendingListController {
         return pendingList.getPendingList();
     }
 
+    @GetMapping("/{guildId}")
+    public List<PendingMember> getPendingListForGuildId(@PathVariable int guildId) {
+        return pendingList.getPendingListForGuildId(guildId);
+    }
+
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping
     public void addToPendingList(@RequestBody int guildId, Principal principal) {
@@ -35,6 +40,14 @@ public class PendingListController {
     public void deleteFromPendingList(@RequestBody int playerId, Principal principal) {
         PlayerDetails playerDetails = HelperClass.castToPlayerDetails(principal);
         pendingList.deleteFromPendingList(playerId, playerDetails);
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PostMapping("{guildId}/approve/{playerId}")
+    public void approveMember(@PathVariable int guildId, @PathVariable int playerId,
+                              Principal principal) {
+        PlayerDetails playerDetails = HelperClass.castToPlayerDetails(principal);
+        pendingList.approveMember(guildId, playerId, playerDetails);
     }
 
 }

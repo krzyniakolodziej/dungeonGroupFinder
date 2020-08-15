@@ -14,6 +14,8 @@ public class Guild {
     private Integer memberCount;
     private boolean isFull;
 
+    public Guild() {};
+
     public Guild(String guildName) {
         this.id = id;
         this.guildName = guildName;

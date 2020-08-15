@@ -2,7 +2,7 @@ package com.dungeongroupfinder.controllers;
 
 import com.dungeongroupfinder.entities.Guild;
 import com.dungeongroupfinder.helpers.HelperClass;
-import com.dungeongroupfinder.messages.ErrorType;
+import com.dungeongroupfinder.enums.ErrorType;
 import com.dungeongroupfinder.security.PlayerDetails;
 import com.dungeongroupfinder.services.GuildService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,7 @@ public class GuildController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping
+    @PutMapping("/{id}")
     public Guild updateGuild(@PathVariable int id, @RequestBody Guild guild, Principal principal) {
         PlayerDetails playerDetails = HelperClass.castToPlayerDetails(principal);
         List<Guild> guildList = guildService.getGuildById(id);

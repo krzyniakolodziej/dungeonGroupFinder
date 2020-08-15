@@ -1,9 +1,11 @@
 package com.dungeongroupfinder.objects;
 
 
-import com.dungeongroupfinder.messages.ErrorType;
+import com.dungeongroupfinder.entities.Player;
+import com.dungeongroupfinder.enums.ErrorType;
 import com.dungeongroupfinder.security.PlayerDetails;
 import com.dungeongroupfinder.services.GuildService;
+import com.dungeongroupfinder.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -22,6 +24,12 @@ public class PendingList {
 
     public List<PendingMember> getPendingList() {
         return pendingMemberList;
+    }
+
+    public List<PendingMember> getPendingListForGuildId(int id) {
+        return pendingMemberList.stream()
+                .filter(element -> element.getPendingGuildId() == id)
+                .collect(Collectors.toList());
     }
 
     public void addToPendingList(int guildId, PlayerDetails playerDetails) {
@@ -50,5 +58,19 @@ public class PendingList {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     getErrorMessage(ErrorType.NO_PERMISSION));
         }
+    }
+    @Autowired
+    private PlayerService playerService;
+    public void approveMember(int guildId, int playerId, PlayerDetails playerDetails) {
+        int ownerId =  guildService.getGuildById(guildId).get(0).getOwnerId();
+        if(ownerId != playerDetails.getPlayer().getId()) {
+            throw new RuntimeException();
+        }
+        List<Player> pendingPlayerList = playerService.getPlayerById(playerId);
+        pendingPlayerList.get(0).setGuildId(guildId);
+        playerService.updatePlayer(pendingPlayerList.get(0));
+        pendingMemberList.removeAll(pendingMemberList.stream()
+                .filter(e -> e.getPlayer().getId() == playerId) // removes all player's pending requests
+        .collect(Collectors.toList()));
     }
 }
