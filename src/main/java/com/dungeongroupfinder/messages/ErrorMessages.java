@@ -1,5 +1,7 @@
 package com.dungeongroupfinder.messages;
 
+import com.dungeongroupfinder.enums.ErrorType;
+
 public class ErrorMessages {
 
     public static String getErrorMessage(ErrorType messageType) {
@@ -19,3 +21,5 @@ public class ErrorMessages {
         }
     }
 }
+
+//ToDo - change to hashmap enum:message

@@ -2,7 +2,7 @@ package com.dungeongroupfinder.controllers;
 
 import com.dungeongroupfinder.entities.Guild;
 import com.dungeongroupfinder.helpers.HelperClass;
-import com.dungeongroupfinder.messages.ErrorType;
+import com.dungeongroupfinder.enums.ErrorType;
 import com.dungeongroupfinder.security.PlayerDetails;
 import com.dungeongroupfinder.services.GuildService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,11 +54,11 @@ public class GuildController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping
+    @PutMapping("/{id}")
     public Guild updateGuild(@PathVariable int id, @RequestBody Guild guild, Principal principal) {
         PlayerDetails playerDetails = HelperClass.castToPlayerDetails(principal);
         List<Guild> guildList = guildService.getGuildById(id);
-        if(guildList == null || guildList.get(0) == null) {
+        if(guildList == null || guildList.get(0) == null) { //TODO move error handling to newclass
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     getErrorMessage(ErrorType.GUILD_ID_DOESNT_EXIST));
         } else if (guildList.get(0).getOwnerId() != playerDetails.getPlayer().getId()) {
@@ -80,18 +80,15 @@ public class GuildController {
         return foundPlayerList;
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    @PostMapping("/join/{guildId}")
-    public void addPlayerToGuild(@PathVariable int guildId,
-                                 @RequestBody int playerId, Principal principal) {
-        guildService.addPlayerToGuild(guildId, playerId,
-                HelperClass.castToPlayerDetails(principal));
-    }
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/leave/{guildId}")
     public void removePlayerFromGuild(@PathVariable int guildId, @RequestBody int playerId,
                                       Principal principal) {
+        PlayerDetails playerDetails = HelperClass.castToPlayerDetails(principal);
+        if(playerId != playerDetails.getPlayer().getId()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    getErrorMessage(ErrorType.NO_PERMISSION));
+        }
         guildService.removePlayerFromGuild(guildId, playerId,
                 HelperClass.castToPlayerDetails(principal));
     }

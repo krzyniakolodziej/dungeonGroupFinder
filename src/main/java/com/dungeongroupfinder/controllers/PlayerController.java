@@ -2,7 +2,7 @@ package com.dungeongroupfinder.controllers;
 
 import com.dungeongroupfinder.entities.Player;
 import com.dungeongroupfinder.helpers.HelperClass;
-import com.dungeongroupfinder.messages.ErrorType;
+import com.dungeongroupfinder.enums.ErrorType;
 import com.dungeongroupfinder.security.PlayerDetails;
 import com.dungeongroupfinder.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;

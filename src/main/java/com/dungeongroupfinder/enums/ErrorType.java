@@ -1,4 +1,4 @@
-package com.dungeongroupfinder.messages;
+package com.dungeongroupfinder.enums;
 
 public enum ErrorType {
     NO_PERMISSION,

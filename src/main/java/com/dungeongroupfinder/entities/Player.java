@@ -23,7 +23,7 @@ public class Player {
     private Roles role;
     private Integer guildId;
 
-    protected Player() {}
+    protected Player() {};
 
     public Player(String name, int level, Roles role,
                   @Size(min = 5, message = "Password must be longer than 5 characters") String password) {
